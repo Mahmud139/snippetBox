@@ -8,6 +8,8 @@ import (
 
 func main() {
 	addr := flag.String("addr", "localhost:8080", "HTTP Netword Address")
+	flag.Parse()
+	
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/snippet", showSnippet)
