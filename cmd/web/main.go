@@ -1,11 +1,13 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 )
 
 func main() {
+	addr := flag.String("addr", "localhost:8080", "HTTP Netword Address")
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/snippet", showSnippet)
@@ -14,8 +16,8 @@ func main() {
 	fileserver := http.FileServer(http.Dir("M:/Projects/snippetbox/ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileserver))
 
-	log.Println("Starting server on localhost:8080")
-	err := http.ListenAndServe("localhost:8080", mux)
+	log.Printf("Starting server on %s\n",*addr)
+	err := http.ListenAndServe(*addr, mux)
 	log.Fatal(err)
 }
 
