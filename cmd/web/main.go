@@ -22,8 +22,14 @@ func main() {
 	fileserver := http.FileServer(http.Dir("M:/Projects/snippetbox/ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileserver))
 
+	server := &http.Server{
+		Addr: *addr,
+		ErrorLog: errorLog,
+		Handler: mux,
+	}
+
 	infoLog.Printf("Starting server on %s\n",*addr)
-	err := http.ListenAndServe(*addr, mux)
+	err := server.ListenAndServe()
 	errorLog.Fatal(err)
 }
 
