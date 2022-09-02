@@ -49,6 +49,7 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		} else {
 			app.serverError(w, err)
 		}
+		return
 	}
 
 	fmt.Fprintf(w, "%v", snippet)
