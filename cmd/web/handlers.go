@@ -38,6 +38,8 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		app.notFound(w)
 		return
 	}
+
+	app.snippets.
 	fmt.Fprintf(w, "Display with a specific snippet no with id %d", id)
 }
 
