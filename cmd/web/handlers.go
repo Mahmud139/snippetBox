@@ -22,27 +22,27 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _, snippet := range snippets {
-		fmt.Fprintf(w, "%v\n", snippet)
+	// for _, snippet := range snippets {
+	// 	fmt.Fprintf(w, "%v\n", snippet)
+	// }
+
+	files := []string{
+		"M:/Projects/snippetbox/ui/html/home.page.tmpl",
+		"M:/Projects/snippetbox/ui/html/base.layout.tmpl",
+		"M:/Projects/snippetbox/ui/html/footer.partial.tmpl",
 	}
 
-	// files := []string{
-	// 	"M:/Projects/snippetbox/ui/html/home.page.tmpl",
-	// 	"M:/Projects/snippetbox/ui/html/base.layout.tmpl",
-	// 	"M:/Projects/snippetbox/ui/html/footer.partial.tmpl",
-	// }
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
 
-	// ts, err := template.ParseFiles(files...)
-	// if err != nil {
-	// 	app.serverError(w, err)
-	// 	return
-	// }
-
-	// err = ts.Execute(w, ts)
-	// if err != nil {
-	// 	app.serverError(w, err)
-	// 	return
-	// }
+	err = ts.Execute(w, &templateData{Snippets: snippets})
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
 }
 
 func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
