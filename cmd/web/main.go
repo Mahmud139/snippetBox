@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"text/template"
+	"html/template"
 
 	"github.com/Mahmud139/snippetbox/pkg/models/mysql"
 	_ "github.com/go-sql-driver/mysql"
@@ -33,10 +33,16 @@ func main() {
 	}
 	defer db.Close()
 
+	templateCache, err := newTemplateCache("M:/Projects/snippetbox/ui/html/")
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
 	app := &application{
 		errorLog: errorLog,
 		infoLog: infoLog,
 		snippets: &mysql.SnippetModel{DB: db},
+		templateCache: templateCache,
 	}
 
 	server := &http.Server{
