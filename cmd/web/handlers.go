@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
-	"html/template"
+	//"html/template"
 	"net/http"
 	"strconv"
 
@@ -26,23 +26,26 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	// 	fmt.Fprintf(w, "%v\n", snippet)
 	// }
 
-	files := []string{
-		"M:/Projects/snippetbox/ui/html/home.page.tmpl",
-		"M:/Projects/snippetbox/ui/html/base.layout.tmpl",
-		"M:/Projects/snippetbox/ui/html/footer.partial.tmpl",
-	}
+	// files := []string{
+	// 	"M:/Projects/snippetbox/ui/html/home.page.tmpl",
+	// 	"M:/Projects/snippetbox/ui/html/base.layout.tmpl",
+	// 	"M:/Projects/snippetbox/ui/html/footer.partial.tmpl",
+	// }
 
-	ts, err := template.ParseFiles(files...)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
+	// ts, err := template.ParseFiles(files...)
+	// if err != nil {
+	// 	app.serverError(w, err)
+	// 	return
+	// }
 
-	err = ts.Execute(w, &templateData{Snippets: snippets})
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
+	// err = ts.Execute(w, &templateData{Snippets: snippets})
+	// if err != nil {
+	// 	app.serverError(w, err)
+	// 	return
+	// }
+	app.render(w, r, "home.page.tmpl", &templateData{
+		Snippets: snippets,
+	})
 }
 
 func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
@@ -62,25 +65,28 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := &templateData{Snippet: snippet}
+	// data := &templateData{Snippet: snippet}
 
-	files := []string {
-		"M:/Projects/snippetbox/ui/html/show.page.tmpl",
-		"M:/Projects/snippetbox/ui/html/base.layout.tmpl",
-		"M:/Projects/snippetbox/ui/html/footer.partial.tmpl",
-	}
+	// files := []string {
+	// 	"M:/Projects/snippetbox/ui/html/show.page.tmpl",
+	// 	"M:/Projects/snippetbox/ui/html/base.layout.tmpl",
+	// 	"M:/Projects/snippetbox/ui/html/footer.partial.tmpl",
+	// }
 
-	ts, err := template.ParseFiles(files...)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
+	// ts, err := template.ParseFiles(files...)
+	// if err != nil {
+	// 	app.serverError(w, err)
+	// 	return
+	// }
 
-	err = ts.Execute(w, data)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
+	// err = ts.Execute(w, data)
+	// if err != nil {
+	// 	app.serverError(w, err)
+	// 	return
+	// }
+	app.render(w, r, "show.page.tmpl", &templateData{
+		Snippet: snippet,
+	})
 }
 
 func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
