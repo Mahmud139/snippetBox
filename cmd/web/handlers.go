@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
-	"unicode/utf8"
 
+	"github.com/Mahmud139/snippetbox/pkg/forms"
 	"github.com/Mahmud139/snippetbox/pkg/models"
 )
 
@@ -61,30 +60,16 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	content := r.PostForm.Get("content")
 	expires := r.PostForm.Get("expires")
 
-	errs := make(map[string]string)
+	form := forms.New(r.PostForm)
 
-	if strings.TrimSpace(title) == "" {
-		errs["title"] = "this field cannot be blank"
-	} else if utf8.RuneCountInString(title) > 100 {
-		errs["title"] =  "This field is too long (maximum is 100 characters)"
-	}
+	form.Required(title, content, expires)
+	form.MaxLength(title, 100)
+	form.PermittedValues(expires, "365", "30", "7")
 
-	if strings.TrimSpace(content) == "" {
-		errs["content"] = "this field cannot be blank"
-	}
-
-	if strings.TrimSpace(expires) == "" {
-		errs["expires"] = "this field cannot be blank"
-	} else if expires != "365" && expires != "30" && expires != "7" {
-		errs["expires"] = "This field is invalid"
-	}
-
-	if len(errs) > 0 {
+	if !form.Valid() {
 		app.render(w, r, "create.page.tmpl", &templateData{
-			FormData: r.PostForm,
-			FormErrors: errs,
+			Form: form,
 		})
-		
 		return
 	}
 
