@@ -10,7 +10,6 @@ import (
 func (app *application) routes() http.Handler {
 	standardMiddleware := alice.New(app.recoverPanic, app.logRequest, secureHeaders)
 
-
 	mux := pat.New()
 	mux.Get("/", http.HandlerFunc(app.home))
 	mux.Get("/snippet/create", http.HandlerFunc(app.createSnippetForm))

@@ -11,9 +11,9 @@ import (
 
 type templateData struct {
 	CurrentYear int
-	Form *forms.Form
-	Snippet *models.Snippet
-	Snippets []*models.Snippet
+	Form        *forms.Form
+	Snippet     *models.Snippet
+	Snippets    []*models.Snippet
 }
 
 func humanDate(t time.Time) string {
@@ -21,7 +21,7 @@ func humanDate(t time.Time) string {
 }
 
 var functions = template.FuncMap{
-	"humanDate" : humanDate,
+	"humanDate": humanDate,
 }
 
 func newTemplateCache(dir string) (map[string]*template.Template, error) {
@@ -39,7 +39,7 @@ func newTemplateCache(dir string) (map[string]*template.Template, error) {
 		if err != nil {
 			return nil, err
 		}
-		
+
 		ts, err = ts.ParseGlob(filepath.Join(dir, "*.layout.tmpl"))
 		if err != nil {
 			return nil, err
