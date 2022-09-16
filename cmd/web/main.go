@@ -44,6 +44,7 @@ func main() {
 
 	session := sessions.New([]byte(*secret))
 	session.Lifetime = 2 * time.Hour
+	session.Secure = true
 
 	app := &application{
 		errorLog:      errorLog,
@@ -59,8 +60,8 @@ func main() {
 		Handler:  app.routes(),
 	}
 
-	infoLog.Printf("Starting server on %s\n", *addr)
-	err = server.ListenAndServe()
+	infoLog.Printf("Starting server on https://%s\n", *addr)
+	err = server.ListenAndServeTLS("M:/Projects/snippetbox/tls/cert.pem", "M:/Projects/snippetbox/tls/key.pem")
 	errorLog.Fatal(err)
 }
 
