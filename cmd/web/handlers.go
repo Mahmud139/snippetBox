@@ -84,7 +84,7 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 
 
 func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
-
+	app.render(w, r, "signup.page.tmpl", nil)
 }
 
 func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
@@ -100,5 +100,5 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
-	
+
 }
