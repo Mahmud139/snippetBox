@@ -88,17 +88,17 @@ func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Fprintln(w, "create a new user")
 }
 
 func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Fprintln(w, "Display the user login form...")
 }
 
 func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Fprintln(w, "login the user")
 }
 
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Fprintln(w, "logout the user..")
 }
