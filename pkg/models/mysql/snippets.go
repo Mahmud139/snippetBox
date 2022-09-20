@@ -73,3 +73,4 @@ func (m *SnippetModel) Latest() ([]*models.Snippet, error) {
 
 	return snippets, nil
 }
+
