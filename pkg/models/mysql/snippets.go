@@ -74,3 +74,6 @@ func (m *SnippetModel) Latest() ([]*models.Snippet, error) {
 	return snippets, nil
 }
 
+type UserModel struct {
+	DB *sql.DB
+}
