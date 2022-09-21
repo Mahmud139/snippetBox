@@ -67,6 +67,17 @@ func (f *Form) PermittedValues(field string, opts ...string) {
 	f.Errors.Add(field, "This field is invalid")
 }
 
+func (f *Form) MatchesPattern(field string, pattern *regexp.Regexp) {
+	value := f.Get(field)
+	if value == "" {
+		return
+	}
+
+	if !pattern.MatchString(field) {
+		f.Errors.Add(field, "This field is invalid")
+	}
+}
+
 func (f *Form) Valid() bool {
 	return len(f.Errors) == 0
 }
