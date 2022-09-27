@@ -81,6 +81,24 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, fmt.Sprintf("/snippet/%d", id), http.StatusSeeOther)
 }
 
+func (app *application) deleteSnippet(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(r.URL.Query().Get(":id"))
+	if err != nil || id < 1 {
+		app.notFound(w)
+		return
+	}
+
+	err = app.snippets.Delete(id)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.session.Put(r, "flash", "Your Snippet is Successfully Deleted!")
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
 
 
 func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
