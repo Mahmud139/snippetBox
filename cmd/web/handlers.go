@@ -213,7 +213,7 @@ func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.session.Put(r, "flash", "Your Password has been updated!")
-	http.Redirect(w, r, "user/profile", http.StatusSeeOther)
+	http.Redirect(w, r, "/user/profile", http.StatusSeeOther)
 }
 
 func (app *application) about(w http.ResponseWriter, r *http.Request) {
