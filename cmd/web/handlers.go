@@ -161,6 +161,16 @@ func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
+func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
+	id := app.session.GetInt(r, "authenticatedUserID")
+	user, err := app.users.Get(id)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	fmt.Fprint(w, user)
+}
+
 func (app *application) about(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "about.page.tmpl", nil)
 }
