@@ -168,7 +168,10 @@ func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
 		app.serverError(w, err)
 		return
 	}
-	fmt.Fprint(w, user)
+	
+	app.render(w, r, "profile.page.tmpl", &templateData{
+		User: user,
+	})
 }
 
 func (app *application) about(w http.ResponseWriter, r *http.Request) {
