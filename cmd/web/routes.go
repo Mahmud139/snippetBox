@@ -12,12 +12,17 @@ func (app *application) routes() http.Handler {
 	dynamicMiddleware := alice.New(app.session.Enable, noSurf, app.authenticate)
 
 	mux := pat.New()
+	/*Pat matches patterns in the order that they are registered. In our application, 
+	a HTTP request to GET "/snippet/create" is actually a valid match for two routes — it’s 
+	an exact match for /snippet/create, and a wildcard match for /snippet/:id (the "create" 
+	part of the path would be treated as the :id parameter). So to ensure that the exact match 
+	takes preference, we need to register the exact match routes before any wildcard routes.*/
 	mux.Get("/", dynamicMiddleware.ThenFunc(app.home))
 	mux.Get("/snippet/create", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.createSnippetForm))
 	mux.Post("/snippet/create", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.createSnippet))
+	mux.Get("/snippet/mySnippets", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.showSnippetByUser))
 	mux.Get("/snippet/:id", dynamicMiddleware.ThenFunc(app.showSnippet))
 	mux.Post("/snippet/:id", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.deleteSnippet))
-	mux.Get("/snippet/mysnippets", http.HandlerFunc(app.showSnippetByUser))
 
 	mux.Get("/user/signup", dynamicMiddleware.ThenFunc(app.signupUserForm))
 	mux.Post("/user/signup", dynamicMiddleware.ThenFunc(app.signupUser))

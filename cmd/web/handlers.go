@@ -48,7 +48,6 @@ func (app *application) createSnippetForm(w http.ResponseWriter, r *http.Request
 	app.render(w, r, "create.page.tmpl", &templateData{
 		Form: forms.New(nil),
 	})
-	//w.Write([]byte("Create a new snippet"))
 }
 
 func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
@@ -84,7 +83,6 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) showSnippetByUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("hello")
 	userId := app.session.GetInt(r, "authenticatedUserID")
 	snippets, err := app.snippets.GetByUser(userId)
 	if err != nil {
@@ -114,6 +112,8 @@ func (app *application) deleteSnippet(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
+
+//user part
 
 func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "signup.page.tmpl", &templateData{
