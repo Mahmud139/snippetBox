@@ -74,6 +74,35 @@ func (m *SnippetModel) Latest() ([]*models.Snippet, error) {
 	return snippets, nil
 }
 
+func (m *SnippetModel) GetByUser(userId int) ([]*models.Snippet, error) {
+	stmt := `SELECT * FROM snippets
+	WHERE  user = ? AND expires > UTC_TIMESTAMP ORDER BY created DESC LIMIT 10;`
+
+	rows, err := m.DB.Query(stmt, userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	snippets := []*models.Snippet{}
+
+	for rows.Next() {
+		s := &models.Snippet{}
+		err = rows.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires, &s.User)
+		if err != nil {
+			return nil, err
+		}
+
+		snippets = append(snippets, s)
+	}
+	
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return snippets, nil
+}
+
 
 func (m *SnippetModel) Delete(id int) error {
 	stmt := `DELETE FROM snippets

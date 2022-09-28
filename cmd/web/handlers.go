@@ -83,6 +83,20 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, fmt.Sprintf("/snippet/%d", id), http.StatusSeeOther)
 }
 
+func (app *application) showSnippetByUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("hello")
+	userId := app.session.GetInt(r, "authenticatedUserID")
+	snippets, err := app.snippets.GetByUser(userId)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.render(w, r, "showSnippetByUser.page.tmpl", &templateData{
+		Snippets: snippets,
+	})
+}
+
 func (app *application) deleteSnippet(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.URL.Query().Get(":id"))
 	if err != nil || id < 1 {
@@ -100,8 +114,6 @@ func (app *application) deleteSnippet(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
-
-
 
 func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "signup.page.tmpl", &templateData{
@@ -137,7 +149,7 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 		} else {
 			app.serverError(w, err)
 		}
-		
+
 		return
 	}
 
@@ -194,7 +206,7 @@ func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
 		app.serverError(w, err)
 		return
 	}
-	
+
 	app.render(w, r, "profile.page.tmpl", &templateData{
 		User: user,
 	})
