@@ -11,11 +11,11 @@ type SnippetModel struct {
 	DB *sql.DB
 }
 
-func (m *SnippetModel) Insert(title, content, expires string) (int, error) {
-	stmt := `INSERT INTO snippets (title, content, created, expires)
-	VALUES(?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`
+func (m *SnippetModel) Insert(title, content, expires string, userId int) (int, error) {
+	stmt := `INSERT INTO snippets (title, content, created, expires, user)
+	VALUES(?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY), ?)`
 
-	result, err := m.DB.Exec(stmt, title, content, expires)
+	result, err := m.DB.Exec(stmt, title, content, expires, userId)
 	if err != nil {
 		return 0, err
 	}
