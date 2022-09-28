@@ -3,24 +3,32 @@
 {{define "title"}}My-snippets{{end}}
 
 {{define "main"}}
-    <h2>Latest Snippets</h2>
+    <h2>My Snippets</h2>
+    {{$exp := .CSRFToken}}
     {{if .Snippets}}
         <table>
             <tr>
                 <th>Title</th>
                 <th>Created</th>
                 <th>ID</th>
+                <th>Modify</th>
             </tr>
             {{range .Snippets}}
                 <tr>
                     <td><a href="/snippet/{{.ID}}">{{.Title}}</a></td>
                     <td>{{humanDate .Created}}</td>
                     <td>#{{.ID}}</td>
+                    <td>
+                        <form action="/snippet/{{.ID}}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{$exp}}">
+                            <button>Delete</button>
+                        </form>
+                    </td>
                 </tr>
             {{end}}
         </table>
     {{else}}
-        <p>There's nothing to see here... yet!</p>
+        <p>You haven't created any snippet yet! Please create some Snippets first.</p>
     {{end}}
     
 {{end}}

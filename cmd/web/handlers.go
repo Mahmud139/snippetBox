@@ -110,7 +110,7 @@ func (app *application) deleteSnippet(w http.ResponseWriter, r *http.Request) {
 
 	app.session.Put(r, "flash", "Your Snippet is Successfully Deleted!")
 
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/snippet/mySnippets", http.StatusSeeOther)
 }
 
 //user part
