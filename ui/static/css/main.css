@@ -105,11 +105,17 @@ nav form {
 }
 
 nav div {
-    width: 50%;
+    /* width: 50%; */
     float: left;
 }
 
+nav div:first-child {
+    width: 450px;
+    /* text-align: right; */
+}
+
 nav div:last-child {
+    width: 340px;
     text-align: right;
 }
 
